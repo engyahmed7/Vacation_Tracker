@@ -13,7 +13,7 @@ use Spatie\Permission\Traits\HasRoles;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles;
-   
+
 
     /**
      * The attributes that are mass assignable.
@@ -22,9 +22,9 @@ class User extends Authenticatable
      */
     protected $fillable = [
         'name',
-        // 'email',
+        'email',
         'password',
-        // 'department_id'
+        'department_id'
     ];
 
     /**
@@ -74,10 +74,27 @@ class User extends Authenticatable
 
     public function getDepartmentNameAttribute()
     {
-        return $this->department_id ? Department::find($this->department_id)->name :'';
+        return $this->department_id ? Department::find($this->department_id)->name : '';
     }
     public function routeNotificationForMattermost()
     {
         return config('services.mattermost.webhook_url');
+    }
+
+    protected static function booted()
+    {
+        static::created(function ($user) {
+            $vacationTypes = VacationType::all();
+
+            foreach ($vacationTypes as $type) {
+                VacationBalance::create([
+                    'user_id' => $user->id,
+                    'vacation_type_id' => $type->id,
+                    'total_days' => $type->total_days,
+                    'used_days' => 0,
+                    'remaining_days' => $type->total_days,
+                ]);
+            }
+        });
     }
 }
