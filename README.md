@@ -112,7 +112,7 @@ The Vacation Tracker system is currently deployed and available for testing. Exp
 - Blade Templates
 - Alpine.js
 - Tailwind CSS
-- 
+  
 ## Installation Guide
 1. Clone the repository:
    ```sh
@@ -122,7 +122,6 @@ The Vacation Tracker system is currently deployed and available for testing. Exp
 2. Install dependencies:
    ```sh
    composer install
-   npm install && npm run build
    ```
 3. Configure the `.env` file:
    ```sh
