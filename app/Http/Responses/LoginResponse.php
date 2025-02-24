@@ -16,7 +16,7 @@ class LoginResponse implements LoginResponseContract
     {
         $userId = $request->user()->id;
 
-        $url = 'http://localhost/user-profiles/' . $userId;
+        $url = config('app.url') . 'user-profiles/' . $userId;
 
         return redirect()->intended($url);
     }

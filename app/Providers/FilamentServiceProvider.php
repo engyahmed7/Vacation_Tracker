@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Filament\Facades\Filament;
 use Filament\Navigation\UserMenuItem;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Route;
 
 class FilamentServiceProvider extends ServiceProvider
@@ -27,17 +28,20 @@ class FilamentServiceProvider extends ServiceProvider
         Filament::serving(function () {
             if (Auth::check()) {
                 $userId = Auth::id();
+                $url = config('app.url') . 'user-profiles/' . $userId;
                 $user = Auth::user();
                 Filament::registerUserMenuItems([
                     UserMenuItem::make()
                         ->label('Profile')
-                        ->url(route('filament.admin.resources.user-profiles.view', ['record' => $userId]))
+                        ->url($url)
                         ->icon('heroicon-s-user'),
                 ]);
 
                 if ($user && !$user->hasRole('admin')) {
                     Filament::getDefaultPanel()->navigation(false);
                 }
+            } else {
+                Log::info("User is not authenticated.");
             }
         });
     }

@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return redirect('/admin');
 });
 
 Route::get('/user-profiles/{record}', function ($record) {
@@ -27,4 +27,4 @@ Route::get('/user-profiles/{record}', function ($record) {
     }
 
     return (new ViewUserProfile())->__invoke();
-})->name('filament.admin.resources.user-profiles.view');
+});

@@ -25,9 +25,17 @@ class CasualVacationsRelationManager extends RelationManager
     {
         return $form
             ->schema([
-                Forms\Components\TextInput::make('CasualVacations')
+                Forms\Components\DatePicker::make('start_date')
+                    ->label('Start Date')
+                    ->required(),
+                Forms\Components\DatePicker::make('end_date')
+                    ->label('End Date')
+                    ->required(),
+                Forms\Components\Textarea::make('comment')
+                    ->label('Comment')
                     ->required()
-                    ->maxLength(255),
+                    ->maxLength(255)
+                    ->columnSpan('full'),
             ]);
     }
 

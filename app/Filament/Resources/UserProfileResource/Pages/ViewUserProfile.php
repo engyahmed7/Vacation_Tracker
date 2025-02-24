@@ -38,12 +38,9 @@ class ViewUserProfile extends ViewRecord
     }
 
 
-    protected function getHeaderActions(): array
+    public function getHeaderActions(): array
     {
-        $actions = [
-            // Actions\EditAction::make(),
-        ];
-
+        $actions = [];
 
         $actions[] = Actions\Action::make('sendVacationRequest')
             ->label('Send Vacation Request')
@@ -54,10 +51,14 @@ class ViewUserProfile extends ViewRecord
                     ->schema([
                         DatePicker::make('start_date')
                             ->required()
-                            ->label('Start Date'),
+                            ->label('Start Date')
+                            ->minDate(now())
+                            ->reactive(),
                         DatePicker::make('end_date')
                             ->required()
-                            ->label('End Date'),
+                            ->label('End Date')
+                            ->minDate(now())
+                            ->reactive(),
                         Select::make('vacation_type_id')
                             ->options([
                                 '1' => 'Casual',
@@ -71,12 +72,21 @@ class ViewUserProfile extends ViewRecord
                     ->columnSpan(2),
             ])
             ->action(function (array $data) {
-                $daysRequested = (new \Carbon\Carbon($data['end_date']))
-                    ->diffInDays(new \Carbon\Carbon($data['start_date'])) + 1;
+                $startDate = new \Carbon\Carbon($data['start_date']);
+                $endDate = new \Carbon\Carbon($data['end_date']);
 
+                if ($startDate->isPast() || $endDate->isPast()) {
+                    Notification::make()
+                        ->title('Invalid Date Selection')
+                        ->danger()
+                        ->body('You cannot request vacation for past dates.')
+                        ->send();
+                    return;
+                }
+
+                $daysRequested = $endDate->diffInDays($startDate) + 1;
                 $vacationService = app(VacationService::class);
                 $vacationTypeId = VacationTypesEnum::from($data['vacation_type_id']);
-
 
                 if (!$vacationService->hasSufficientBalance(Auth::id(), $vacationTypeId, $daysRequested)) {
                     Notification::make()
@@ -102,7 +112,6 @@ class ViewUserProfile extends ViewRecord
             ->modalIcon('heroicon-o-calendar');
 
         if (Gate::allows('viewUserFormButtons', auth()->user())) {
-
             $actions[] = Actions\Action::make('manageVacationRequests')
                 ->label('Manage Vacation Requests')
                 ->action(fn() => $this->redirect(ManageVacationRequestResource::getUrl('index')))
