@@ -149,7 +149,7 @@ The Vacation Tracker system is currently deployed and available for testing. Exp
 MATTERMOST_WEBHOOK_URL=https://your-mattermost-server/hooks/xyz123q
 
 # Application Settings
-APP_URL=http://localhost:8000
+APP_URL=http://127.0.0.1:8000
 APP_ENV=production
 APP_DEBUG=false
 
