@@ -50,6 +50,20 @@ graph TD
     style C fill:#009688,color:white
 ```
 
+## Live Demo
+
+The Vacation Tracker system is currently deployed and available for testing. Explore the full functionality with test credentials below:
+
+🌐 **Demo URL**: [https://vacation-tracker.free.nf/](https://vacation-tracker.free.nf/)
+
+### Demo Credentials
+
+| Role        | Email                        | Password    |
+|-------------|------------------------------|-------------|
+| Admin       | admin@admin.com              | admin       |
+| HR Manager  | hr@hr.com                    | hr          |
+| Supervisor  | supervisor@supervisor.com    | supervisor  |
+
 ## Table of Contents
 - [Key Features](#key-features)
 - [Technology Stack](#technology-stack)
