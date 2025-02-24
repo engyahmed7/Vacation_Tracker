@@ -63,6 +63,8 @@ The Vacation Tracker system is currently deployed and available for testing. Exp
 | Admin       | admin@admin.com              | admin       |
 | HR Manager  | hr@hr.com                    | hr          |
 | Supervisor  | supervisor@supervisor.com    | supervisor  |
+| user        | user@user.com                | User1234    |
+
 
 ## Table of Contents
 - [Key Features](#key-features)
